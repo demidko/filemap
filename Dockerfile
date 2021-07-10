@@ -1,10 +1,11 @@
 FROM conanio/clang11 as builder
-WORKDIR /project
+WORKDIR /proj
 COPY src ./src
 COPY CMakeLists.txt ./CMakeLists.txt
-RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -B ./bin
-RUN cmake --build ./bin --target all
+RUN mkdir release
+RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -B release
+RUN cmake --build release --target all
 
 FROM debian as backend
-COPY --from=builder /project/bin/app /app
+COPY --from=builder /project/release/app /app
 ENTRYPOINT ["/app"]
