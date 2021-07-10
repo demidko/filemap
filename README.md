@@ -1,6 +1,6 @@
 # [@FileMapBot](https://t.me/filemapbot)
 
-[`@filemapbot`](https://t.me/filemapbot) `= f(`[`message`](https://core.telegram.org/bots/api#message)`)` `⟹` [`your last document id`](https://core.telegram.org/bots/api#document)
+[`@filemapbot`](https://t.me/filemapbot) `＝﹦= f(`[`message`](https://core.telegram.org/bots/api#message)`)` `⟹` [`your last document id`](https://core.telegram.org/bots/api#document)
 
 ## Build
 
