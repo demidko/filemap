@@ -1,36 +1,6 @@
-# utility
+# [@FileMapBot](https://t.me/filemapbot)
 
-A cross-platform `C++20` command line tool template with dependency manager, powered by integration
-of [`CMake`](https://cmake.org/)
-with [`Conan`](https://github.com/conan-io/cmake-conan).
-
-## Usage
-
-Make sure you are signed in to your GitHub account, then just
-click [`here`](https://github.com/demidko/conan-utility/generate) to use template.
-
-## Motivation and goals
-
-In the С++ world, now...
-
-* When an idea comes up, you have to create manually `CMakeLists.txt`,` README.md`, a directories structure, or finish
-  the project created by the IDE to a portable state.
-* There is no dependency management without difficulties.
-* There is no cross-platform build without Qt.
-* These problems overlap, causing troubles for developers.
-
-Therefore, `utility` is a template for creating and building cross-platform C++ projects with external
-dependencies. `Utility` is a tool like `start.technology.io` sites for Java, .NET and Rust.
-
-## Features and benefits
-
-* Full compatibility with existing technologies. No build configuration files are added except for the
-  traditional `CMakeLists.txt`.
-* Created projects are supported in `CLion`,` Visual Studio`, `VS Code` IDEs.
-* Dockerfile of executable container and GitHub actions CI already exists by default.
-* Easy deploy to Digital Ocean.
-* Adding dependencies [right in CMakeLists.txt](https://github.com/conan-io/cmake-conan) only.
-* A project with all dependencies can be built on different OS without configuration changes.
+[`@filemapbot`](https://t.me/filemapbot) `= f(`[`message`](https://core.telegram.org/bots/api#message)`)` `⟹` [`your last document id`](https://core.telegram.org/bots/api#document)
 
 ## Build
 
@@ -69,16 +39,5 @@ docker run -it utility
 
 The sample configuration already exists in the `.do` directory. To deploy the application, just click the button.
 
-[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/timecobot2/tree/main)
+[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/demidko/filemapbot/tree/main)
 
-## Conventions
-
-* The entry point must be located in the `Main.cpp` file for correct build script work.
-* To initialize resources, we using [modern parameter passing by value](https://habr.com/ru/post/460955/), rather than a
-  constant link.
-* Only the result of the compilation of `* .cpp` files in the` src` folder is included in the release assembly.
-* The `src` folder contains the` *.cpp` and `*.h` project files together.
-* The `test` folder contains the` *.cpp` and `*.h` project test files together.
-* Each `*.h` file must define only one entity in the global namespace, whose name must match the file name.
-* The contents of `*.cpp` files not declared in` *.h` file must be protected from `external linkage` from others
-  compilation units by adding them to the anonymous namespace or adding the keyword `static`.

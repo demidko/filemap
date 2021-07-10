@@ -1,13 +1,13 @@
 spec:
-  name: utility # TODO change name
+  name: fileidsbot
   workers:
     - name: backend
       dockerfile_path: Dockerfile
       github:
-        repo: demidko/timecobot # TODO change repo
+        repo: demidko/filemapbot
         branch: main
         deploy_on_push: true
-      envs: # TODO change environment variables
-        - key: TOKEN # example
+      envs:
+        - key: TOKEN
           type: SECRET
           scope: RUN_TIME
