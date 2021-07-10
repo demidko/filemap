@@ -1,18 +1,17 @@
 #include <tgbot/tgbot.h>
-#include <unordered_map>
 
 int main() {
-  std::unordered_map<int32_t, std::string> storage;
+  std::unordered_map<int32_t, std::string> map;
   TgBot::Bot bot(getenv("TOKEN"));
   bot.getEvents().onAnyMessage([&](auto &&m) {
     if (!m->from->id) {
       return;
     }
-    if (storage.contains(m->from->id)) {
-      bot.getApi().sendMessage(m->chat->id, storage[m->from->id], false, m->messageId);
+    if (map.find(m->from->id) != map.cend()) {
+      bot.getApi().sendMessage(m->chat->id, map[m->from->id], false, m->messageId);
     }
     if (m->document) {
-      storage[m->from->id] = m->document->fileId;
+      map[m->from->id] = m->document->fileId;
     }
   });
   for (TgBot::TgLongPoll p(bot);; p.start());
