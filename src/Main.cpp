@@ -5,6 +5,7 @@ int main() {
   std::unordered_map<int32_t, std::unordered_map<std::string, std::string>> map;
   TgBot::Bot bot(getenv("TOKEN"));
   bot.getEvents().onAnyMessage([&](const TgBot::Message::Ptr &m) {
+    spdlog::warn("{}: {}", m->text);
     if (m->text.empty() || !m->from->id) {
       return;
     }

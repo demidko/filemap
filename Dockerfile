@@ -1,4 +1,4 @@
-FROM conanio/clang11 as builder
+FROM conanio/gcc11 as builder
 USER root
 WORKDIR /proj
 COPY src ./src
