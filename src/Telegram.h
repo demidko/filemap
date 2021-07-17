@@ -13,6 +13,7 @@ namespace Telegram {
 
   using ChatId = std::variant<int64_t, std::string>;
 
+  // todo file loaded/unloaded
   struct Action {
     ChatId chatId;
     int64_t senderId;
