@@ -17,7 +17,7 @@ void Telegram::Bot::handleUpdates() {
   );
   if (response.error) {
     spdlog::critical("{}", response.error.message);
-    return;
+    throw std::runtime_error(response.error.message);
   }
   try {
     simdjson::padded_string json = response.text;
