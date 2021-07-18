@@ -7,5 +7,5 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -B ./bin
 RUN cmake --build ./bin --target all
 
 FROM debian as backend
-COPY --sender=builder /proj/bin/app /app
+COPY --from=builder /proj/bin/app /app
 ENTRYPOINT ["/app"]
