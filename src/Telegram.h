@@ -39,6 +39,7 @@ namespace Telegram {
     const std::string messageTypes[2]{"message", "channel_post"};
     int64_t offset{};
     ThreadPool pool{4};
+    cpr::VerifySsl ssl{false};
 
     bool handleMessage(simdjson::simdjson_result<simdjson::ondemand::value> container);
 

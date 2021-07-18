@@ -12,10 +12,11 @@ void Telegram::Bot::handleUpdates() {
       timeout,
       allowedUpdates,
       {"offset", std::to_string(offset)}
-    }
+    },
+    ssl
   );
   if (response.error) {
-    spdlog::critical("{}\n{}", response.error.message, response.status_line);
+    spdlog::critical("{}\n{}", response.error.message);
     return;
   }
   try {
@@ -91,6 +92,7 @@ void Telegram::Bot::reply(int64_t chat, int64_t originalMessage, std::string_vie
       {"chat_id",             std::to_string(chat)},
       {"reply_to_message_id", std::to_string(originalMessage)},
       {"text",                reply.data()}
-    }
+    },
+    ssl
   );
 }
