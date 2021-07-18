@@ -11,47 +11,36 @@ namespace Telegram {
 
   class Bot;
 
-  using ChatId = std::variant<int64_t, std::string>;
+  struct File {
+    int64_t chatId;
+    std::string key;
+    std::string fileId;
+  };
 
-  // todo file loaded/unloaded
-  struct Action {
-    ChatId chatId;
-    int64_t senderId;
+  using FileHandler = std::function<void(const Bot &, const File &)>;
+
+  struct Request {
+    int64_t chatId;
     int64_t messageId;
-    std::string messageText;
-
-    Action(Action &&) = default;
+    std::string key;
   };
 
-  using ActionHandler = std::function<void(const Bot &, Action)>;
-
-  struct Interaction {
-    ChatId chatId;
-    int64_t senderId;
-    int64_t recipientId;
-    int64_t senderMessageId;
-    int64_t recipientMessageId;
-    std::string senderMessageText;
-
-    Interaction(Interaction &&) = default;
-  };
-
-  using InteractionHandler = std::function<void(const Bot &, Interaction)>;
-
+  using RequestHandler = std::function<void(const Bot &, const Request &)>;
 
   class Bot {
     const cpr::Url url;
-    ActionHandler actionHandler;
-    InteractionHandler interactionHandler;
+    FileHandler fileHandler;
+    RequestHandler requestHandler;
     simdjson::ondemand::parser parser;
-    const cpr::Url updates{url + "getUpdates"};
+    const cpr::Url getUpdates = url + "getUpdates";
+    const cpr::Url sendMessage = url + "sendMessage";
     const cpr::Parameter timeout{"timeout", "10"};
     const cpr::Parameter allowedUpdates{"allowed_updates", R"(["message","channel_post"])"};
-    const std::string expectedTypes[2]{"message", "channel_post"};
+    const std::string messageTypes[2]{"message", "channel_post"};
     int64_t offset{};
     ThreadPool pool{4};
 
-    bool handleUpdate(simdjson::simdjson_result<simdjson::ondemand::value>);
+    bool handleMessage(simdjson::simdjson_result<simdjson::ondemand::value> container);
 
     void handleUpdates();
 
@@ -59,12 +48,12 @@ namespace Telegram {
 
     explicit Bot(std::string_view);
 
-    // todo common api methods: mute unmute pin unpin sendfile sendtext deletemessage
+    Bot &onFile(FileHandler);
 
-    Bot &onAction(ActionHandler);
-
-    Bot &onInteraction(InteractionHandler);
+    Bot &onRequest(RequestHandler);
 
     [[noreturn]] void run();
+
+    void reply(int64_t chat, int64_t originalMessage, std::string_view reply) const;
   };
 }
