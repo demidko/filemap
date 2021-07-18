@@ -6,15 +6,20 @@ using std::string_literals::operator ""s;
 Telegram::Bot::Bot(std::string_view t) : url{"https://api.telegram.org/bot"s + t.data() + "/"} {}
 
 void Telegram::Bot::handleUpdates() {
-  simdjson::padded_string json = cpr::Get(
+  auto response = cpr::Get(
     getUpdates,
     cpr::Parameters{
       timeout,
       allowedUpdates,
       {"offset", std::to_string(offset)}
     }
-  ).text;
+  );
+  if (response.error) {
+    spdlog::critical("{}\n{}", response.error.message, response.status_line);
+    return;
+  }
   try {
+    simdjson::padded_string json = response.text;
     auto document = parser.iterate(json);
     for (auto update: document["result"]) {
       offset = update["update_id"].get_int64() + 1;
@@ -25,7 +30,7 @@ void Telegram::Bot::handleUpdates() {
       }
     }
   } catch (const simdjson::simdjson_error &e) {
-    spdlog::error("{}\n{}", e.what(), json.u8data());
+    spdlog::error("{}\n{}\n{}", response.status_line, e.what(), response.text);
   }
 }
 
