@@ -16,7 +16,7 @@ void Telegram::Bot::handleUpdates() {
     ssl
   );
   if (response.error) {
-    spdlog::critical("{}\n{}", response.error.message);
+    spdlog::critical("{}", response.error.message);
     return;
   }
   try {
